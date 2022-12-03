@@ -9,22 +9,12 @@ fn main() {
     println!("{}", output);
 }
 
-fn run(input: &str) -> usize {
+fn run(input: &str) -> i32 {
     input
         .split_whitespace()
         .map(|w| {
-            let mass: usize = w.parse().unwrap();
+            let mass: i32 = w.parse().unwrap();
             mass / 3 - 2
         })
         .sum()
-}
-
-#[cfg(test)]
-mod tests {
-    use super::*;
-
-    #[test]
-    fn run_test() {
-        assert_eq!(run("12\n14\n"), 4)
-    }
 }
