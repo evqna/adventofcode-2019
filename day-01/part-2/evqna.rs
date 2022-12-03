@@ -9,34 +9,21 @@ fn main() {
     println!("{}", output);
 }
 
-fn fuel_requirement(mut mass: isize) -> isize {
-    let mut total_fuel = 0;
-    loop {
-        let extra_fuel = mass / 3 - 2;
-        mass = extra_fuel;
-        if extra_fuel <= 0 {
-            break total_fuel
-        }
-        total_fuel += extra_fuel;
+fn rec_fuel(mass: i32) -> i32 {
+    let fuel = mass / 3 - 2;
+    if fuel > 0 {
+        fuel + rec_fuel(fuel)
+    } else {
+        0
     }
 }
 
-fn run(input: &str) -> isize {
+fn run(input: &str) -> i32 {
     input
         .split_whitespace()
         .map(|w| {
-            let mass: isize = w.parse().unwrap();
-            fuel_requirement(mass)
+            let mass: i32 = w.parse().unwrap();
+            rec_fuel(mass)
         })
         .sum()
-}
-
-#[cfg(test)]
-mod tests {
-    use super::*;
-
-    #[test]
-    fn run_test() {
-        assert_eq!(run("12\n1969\n"), 968)
-    }
 }
