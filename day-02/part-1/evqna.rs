@@ -9,21 +9,24 @@ fn main() {
     println!("{}", output);
 }
 
-fn run_program(mem: &mut Vec<usize>) {
-    let mut ip = 0;
+fn run_program(mem: &mut [usize]) {
+    let mut ip: usize = 0;
     loop {
         let op = mem[ip];
-        if op == 99 {
-            break;
+        match op {
+            1 => {
+                let (a, b, c) = (mem[ip + 1], mem[ip + 2], mem[ip + 3]);
+                mem[c] = mem[a] + mem[b];
+                ip += 4;
+            }
+            2 => {
+                let (a, b, c) = (mem[ip + 1], mem[ip + 2], mem[ip + 3]);
+                mem[c] = mem[a] * mem[b];
+                ip += 4;
+            }
+            99 => break,
+            _ => panic!("Invalid opcode {} at {}", op, ip),
         }
-
-        let (a, b, c) = (mem[ip + 1], mem[ip + 2], mem[ip + 3]);
-        if op == 1 {
-            mem[c] = mem[a] + mem[b];
-        } else {
-            mem[c] = mem[a] * mem[b];
-        }
-        ip += 4;
     }
 }
 
